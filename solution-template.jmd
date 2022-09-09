@@ -44,7 +44,6 @@ graphplot(A, fontsize=6, names=names, markersize=0.075, markershapes=shapes, mar
 
 ## Problem 1.2
 ```math
-
 Given: \\
 X_p, C_p \\[7mm]
 
@@ -54,7 +53,7 @@ X_p = X_1 + X_2 + X_3 \\
 X_3 = X_p - X_1 - X_2 \\[7mm]
 
 Land \quad treatment: \\
-    M_{1i} = X_1 * C_p \quad (mass \quad inflow \quad of \quad YUK)\\
+    M_{1i} = X_1 * C_p \quad (mass \quad inflow \quad of \quad YUK)\\ 
     M_{1f} = X_1 * C_p * 0.2 \quad (mass \quad outflow \quad of \quad YUK)\\[7mm]
 
 Chemical \quad treatment: \\
@@ -65,15 +64,63 @@ Plant \quad to \quad Pristine \quad Brook: \\ \\
     M_3 = X_3 * C_p \\[7mm]
 
 C_{final} = \frac{M_{1f} + M_{2f} + M_3}{X_p} = \frac{C_p ((X_1 * 0.2) + (X_2^2 * 0.005) + X_3)}{X_1 + X_2 + X_3}
+```
 
+The masses after treatment can be calculated based on the given efficiencies. Therefore the final concentration is the sum of the final
+masses divided by the total amount of water.
+
+```math
+Costs: \\[7mm]
+
+Land \quad treatment: \\
+C_1 = $\frac{X_1^2}{20} \quad /day \\[7mm]
+
+Chemical \quad treatment: \\
+C_2 = $1.50 \quad /m^3 ww
 ```
 
 ## Problem 1.3
+```julia
+function yuk_treatment(Xp, Cp, E1, X1, X2) 
+        # Xp = ww volume, Cp = ww concentration, E1 = efficiency of land treatment, 
+        # X1 and X2 are volume that go to land and chem treatment respectively
 
+        X3 = Xp-X1-X2 # ww vol that goes straight to brook
+        M3 = X3*Cp # mass Yuk that goes straight to brook
+        M1f = X1*Cp*E1 # mass YUK left after land treatment
+        M2f = 0.005*Cp*X2^2 # mass YUK left after chem treatment
+        Cfinal = (M1f+M2f+M3)/Xp # final concentration
 
+        C1 = X1^2/20 # cost for land treat
+        C2 = 1.5*X2 # cost for chem treat
+        cost = C1+C2 # total cost
+    return Cfinal, cost
+end
+```
 
 ## Problem 1.4
+```julia
+x1_samples = rand(1:100, 10)
+x2_samples = rand(100:200, 10)
 
+for i in 1: length(x1_samples)
+    while (x2_samples[i] + x1_samples[i]) > 100
+        x2_samples[i] = rand(1:100)
+    end
+end
+
+plot_conc = zeros(length(x1_samples))
+plot_costs = zeros(length(x1_samples))
+for i in 1:length(x1_samples)
+    result = yuk_treatment(100, 1, 0.2, x1_samples[i], x2_samples[i])
+    plot_conc[i] = result[1]
+    plot_costs[i] = result[2]
+end
+
+scatter(plot_conc, plot_costs, label= "Treatment Plans", title= "YUK Concentration vs. Cost to Treat", xlabel= "YUK Concentration (kg/m^3)", ylabel= "Cost")
+vline!([.2], label= "Effluent Standard")
+
+```
 ## Problem 1.5
 
 ## Problem 1.6
@@ -81,6 +128,9 @@ C_{final} = \frac{M_{1f} + M_{2f} + M_3}{X_p} = \frac{C_p ((X_1 * 0.2) + (X_2^2 
 ## Problem 1.7
 
 # References
+
+Generating a random integer in range in Julia. Stack Overflow. 
+https://stackoverflow.com/questions/24326876/generating-a-random-integer-in-range-in-julia
 
 GraphRecipes Examples. Julia Documentation. https://docs.juliaplots.org/latest/graphrecipes/examples/ 
 
