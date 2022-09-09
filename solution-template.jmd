@@ -100,32 +100,45 @@ end
 
 ## Problem 1.4
 ```julia
-x1_samples = rand(1:100, 10)
-x2_samples = rand(100:200, 10)
+# create sampling plans
+x1_samples = rand(1:100, 10) # amount of wastewater to land treat
+x2_samples = rand(100:200, 10) # vector of values above 100 for below
 
 for i in 1: length(x1_samples)
-    while (x2_samples[i] + x1_samples[i]) > 100
-        x2_samples[i] = rand(1:100)
+    while (x2_samples[i] + x1_samples[i]) > 100 # make sure total is below 100
+        x2_samples[i] = rand(1:100) # amount of wastewater to chem treat
     end
 end
 
-plot_conc = zeros(length(x1_samples))
-plot_costs = zeros(length(x1_samples))
+plot_conc = zeros(length(x1_samples)) # initialize
+plot_costs = zeros(length(x1_samples)) # initialize
 for i in 1:length(x1_samples)
-    result = yuk_treatment(100, 1, 0.2, x1_samples[i], x2_samples[i])
-    plot_conc[i] = result[1]
+    result = yuk_treatment(100, 1, 0.2, x1_samples[i], x2_samples[i]) # result tupl
+    plot_conc[i] = result[1] # put correct parameter in correct vector
     plot_costs[i] = result[2]
 end
 
 scatter(plot_conc, plot_costs, label= "Treatment Plans", title= "YUK Concentration vs. Cost to Treat", xlabel= "YUK Concentration (kg/m^3)", ylabel= "Cost")
-vline!([.2], label= "Effluent Standard")
+vline!([.2], label= "Effluent Standard") # add line for effluent standarc
 
 ```
 ## Problem 1.5
 
+Based on the plot from Problem 1.4, a higher cost doesn't necessarily mean a better
+treatment of YUK. I would select the treatment plan based mainly on if the predicted
+concentration is below the effluent standard, and then perhaps choose a lower cost within 
+this group. I am biased here as an environmental engineering student as I have been 
+taught to always look to the EPA for regulations. Selecting the lower cost prioritizes 
+the plant, but in doing so makes it more likely that they will agree to this plan.
+
 ## Problem 1.6
 
-## Problem 1.7
+We assumed that the treatment efficiency for land treatment was constant and didn't 
+fluctuate with the amount of effluent it received. This would likely not be true in a 
+real scenario. The plant also is assumed to release both a constant amount of wastewater
+and a constant concentration of YUK which would likely not be the case. Additionally,
+YUK might have a decay rate and this model does not take that into account. 
+Investigating these scenarios would be insightful for improving this model.
 
 # References
 
