@@ -1,14 +1,14 @@
 ---
 title: "BEE 4750/5750 Homework 1"
-author: "Your name here (your netID here)"
+author: "Sarah Mack (skm237)"
 date: `j import Dates; Dates.Date(Dates.now())`
 weave_options:
-	term: true
-	cache: off
-	md2pdf:
-		template: "bee4750pdf.tpl"
-	md2html:
-		template: "bee4750html.tpl"
+    term: true
+    cache: off
+    md2pdf:
+        template: "bee4750pdf.tpl"
+    md2html:
+        template: "bee4750html.tpl"
 ---
 
 <!-- This setups the environment and installs packages, but doesn't appear in the generated document -->
@@ -31,17 +31,46 @@ A = [0 1 1 1;
 		 0 0 0 1;
    	 	 0 0 0 0]
 	
-names = ["Plant", "Land Treatment", "Chem Treatment", "Pristine Brook"]
-shapes=[:hexagon, :rect, :rect, :hexagon]
-xpos = [0, -1, -0.25, 1]
+names = ["PLANT \n Xp = 100 m^3/day ww \n Cp = 1 kg/m^3 YUK", 
+"1. LAND TREATMENT \n cost X1^2/20 /day \n X1 = ww disposed on land \n 80% efficiency \n M1i = X1*Cp \n M1f = X1*Cp*0.2", 
+"2. CHEM TREATMENT \n cost 1.50/m^3 ww \n e=1-0.005*X2 efficiency \n X2 = ww treated chemically \n M2i = X2*Cp \n M2f = 0.005*Cp*X2^2", 
+"3. PRISTINE BROOK \n X3 = ww directly into stream \n M3 = X3*Cp \n Cfinal = ?"]
+shapes=[:circle, :hexagon, :hexagon, :circle]
+xpos = [0, -1.5, 1.5, 0]
 ypos = [1, 0, 0, -1]
 
-graphplot(A, names=names, markersize=0.15, markershapes=shapes, markercolor=:white, x=xpos, y=ypos)
+graphplot(A, fontsize=6, names=names, markersize=0.075, markershapes=shapes, markercolor=:white, x=xpos, y=ypos)
 ```
 
 ## Problem 1.2
+```math
+
+Given: \\
+X_p, C_p \\[7mm]
+
+X_1 \quad and \quad X_2 \quad depend \quad on \quad the \quad treatment \quad plan\\[7mm]
+
+X_p = X_1 + X_2 + X_3 \\
+X_3 = X_p - X_1 - X_2 \\[7mm]
+
+Land \quad treatment: \\
+    M_{1i} = X_1 * C_p \quad (mass \quad inflow \quad of \quad YUK)\\
+    M_{1f} = X_1 * C_p * 0.2 \quad (mass \quad outflow \quad of \quad YUK)\\[7mm]
+
+Chemical \quad treatment: \\
+    M_{2i} = X_2 * C_p \\
+    M_{2f} = X_2 * C_p * (0.005 * X2) = 0.005 * C_p * X_2^2 \\[7mm]
+ 
+Plant \quad to \quad Pristine \quad Brook: \\ \\
+    M_3 = X_3 * C_p \\[7mm]
+
+C_{final} = \frac{M_{1f} + M_{2f} + M_3}{X_p} = \frac{C_p ((X_1 * 0.2) + (X_2^2 * 0.005) + X_3)}{X_1 + X_2 + X_3}
+
+```
 
 ## Problem 1.3
+
+
 
 ## Problem 1.4
 
@@ -52,3 +81,10 @@ graphplot(A, names=names, markersize=0.15, markershapes=shapes, markercolor=:whi
 ## Problem 1.7
 
 # References
+
+GraphRecipes Examples. Julia Documentation. https://docs.juliaplots.org/latest/graphrecipes/examples/ 
+
+LaTeX help 1.1. Cherry L. Emerson Center for Scientific Computation. Emory University. 
+http://www.emerson.emory.edu/services/latex/latex_toc.html#SEC101 
+
+Mathematical expressions. Learn Latex at Overleaf. https://www.overleaf.com/learn/latex/Mathematical_expressions 
