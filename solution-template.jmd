@@ -23,24 +23,7 @@ Pkg.instantiate()
 
 ## Problem 1.1
 
-```julia
-using GraphRecipes, Plots
-
-A = [0 1 1 1;
-		 0 0 0 1;
-		 0 0 0 1;
-   	 	 0 0 0 0]
-	
-names = ["PLANT \n Xp = 100 m^3/day ww \n Cp = 1 kg/m^3 YUK", 
-"1. LAND TREATMENT \n cost X1^2/20 /day \n X1 = ww disposed on land \n 80% efficiency \n M1i = X1*Cp \n M1f = X1*Cp*0.2", 
-"2. CHEM TREATMENT \n cost 1.50/m^3 ww \n e=1-0.005*X2 efficiency \n X2 = ww treated chemically \n M2i = X2*Cp \n M2f = 0.005*Cp*X2^2", 
-"3. PRISTINE BROOK \n X3 = ww directly into stream \n M3 = X3*Cp \n Cfinal = ?"]
-shapes=[:circle, :hexagon, :hexagon, :circle]
-xpos = [0, -1.5, 1.5, 0]
-ypos = [1, 0, 0, -1]
-
-graphplot(A, fontsize=6, names=names, markersize=0.075, markershapes=shapes, markercolor=:white, x=xpos, y=ypos)
-```
+![img](/Users/sarahmack/Documents/GitHub/BEE 4750 github/hw/hw1-skm237/figures/drawing hw 1 bee 4750.png)
 
 ## Problem 1.2
 ```math
@@ -73,10 +56,10 @@ masses divided by the total amount of water.
 Costs: \\[7mm]
 
 Land \quad treatment: \\
-C_1 = $\frac{X_1^2}{20} \quad /day \\[7mm]
+Cost_1 = $\frac{X_1^2}{20} \quad /day \\[7mm]
 
 Chemical \quad treatment: \\
-C_2 = $1.50 \quad /m^3 ww
+Cost_2 = $1.50 \quad /m^3 ww
 ```
 
 ## Problem 1.3
@@ -100,6 +83,8 @@ end
 
 ## Problem 1.4
 ```julia
+using Plots
+
 # create sampling plans
 x1_samples = rand(1:100, 10) # amount of wastewater to land treat
 x2_samples = rand(100:200, 10) # vector of values above 100 for below
@@ -146,6 +131,8 @@ Generating a random integer in range in Julia. Stack Overflow.
 https://stackoverflow.com/questions/24326876/generating-a-random-integer-in-range-in-julia
 
 GraphRecipes Examples. Julia Documentation. https://docs.juliaplots.org/latest/graphrecipes/examples/ 
+
+Julia Plots Tutorial. Julia Documentation. https://docs.juliaplots.org/latest/tutorial/ 
 
 LaTeX help 1.1. Cherry L. Emerson Center for Scientific Computation. Emory University. 
 http://www.emerson.emory.edu/services/latex/latex_toc.html#SEC101 
